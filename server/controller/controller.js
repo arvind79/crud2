@@ -50,7 +50,7 @@ export const deleteStudent = async (request, response) => {
 }
 
 export const searchStudent = async (request, response) => {
-  console.log("request bodyy: ", request.params.id)
+  // console.log("request bodyy: ", request.params.id)
   const searchQuery = request.params.id;
 
   try {
@@ -69,5 +69,29 @@ export const searchStudent = async (request, response) => {
     response.status(200).json(student);
   } catch (error) {
     console.log("Error while searching student in the db: ", error);
+  }
+}
+
+export const addStudents = async(request, response) => {
+  const data = request.body;
+  try {
+    await Students.insertMany(data);
+    response.status(201).json(data);
+  } catch (error) {
+    console.log("Error while adding students in the db: ", error);
+  }
+}
+
+export const deleteStudents = async(request, response) => {
+  const data = request.query.ids;
+  // console.log("del data: ", data);
+  try {
+    const result = await Students.deleteMany({_id: { $in: data }});
+    if(result.deletedCount > 0) 
+      response.status(200).json({message: "Students deleted successfully"});
+    else 
+      response.status(404).json({error: "No matching students found for deletion"});
+  } catch (error) {
+    console.log("Error while deleting students in ths db: ", error);
   }
 }

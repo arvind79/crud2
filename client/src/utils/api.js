@@ -44,11 +44,27 @@ export const deleteStudent = async(id) => {
 }
 
 export const searchStudent = async(query) => {
-  console.log("query: ", query)
+  // console.log("query: ", query)
   try {
     return await axios.get(`${URL}/searchStudent/${query}`);
     // return await axios.post(`${URL}/searchStudent`, query);
   } catch (error) {
     console.log("Error while calling searchStudent api: ", error);
+  }
+}
+
+export const addStudents = async(students) => {
+  try {
+    return await axios.post(`${URL}/addStudents`, students);
+  } catch (error) {
+    console.log("error while calling addStudents api: ", error);
+  }
+}
+
+export const deleteStudents = async(studentIds) => {
+  try {
+    return await axios.delete(`${URL}/deleteStudents`, { params: {ids: studentIds} } );
+  } catch (error) {
+    console.log("Error while calling deleteStudents api: ", error);
   }
 }
